@@ -26,8 +26,7 @@ export class ProductsController {
 findByProvider(@Param('id',new ParseUUIDPipe({version:'4' })) id: string){
   return this.productsService.findByProvider(id);
 }
-
-
+ 
 
   @Patch(':id')
   update(@Param('id',  new ParseUUIDPipe({version:'4' }) )
