@@ -1,10 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Location } from "src/locations/entities/location.entity";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Manager {
     @PrimaryGeneratedColumn('uuid')
     managerId: string;
-    @Column('text')
+    @Column('text')z
     managerFullName: string;
     @Column('float')
     managerSalary: number;
@@ -12,4 +13,8 @@ export class Manager {
     managerEmail: string;
     @Column('text')
     managerPhone: string;
+
+@OneToOne(()=> Location)
+location: Location;
+
 }
