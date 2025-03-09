@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Provider } from './entities/provider.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { EXPIRES_IN, JWT_KEY } from 'src/auth/constants/jwt.constants';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
 
 @Module({
   imports:[TypeOrmModule.forFeature([Provider]),JwtModule.register({
