@@ -2,7 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ManagersService } from './managers.service';
 import { CreateManagerDto } from './dto/create-manager.dto';
 import { UpdateManagerDto } from './dto/update-manager.dto';
+import { ApiAuth } from 'src/auth/decorators/api.decorator';
 
+
+@ApiAuth()
 @Controller('managers')
 export class ManagersController {
   constructor(private readonly managersService: ManagersService) {}

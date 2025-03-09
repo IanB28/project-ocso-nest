@@ -1,7 +1,5 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { EmployeesModule } from './employees/employees.module';
 import { ProductsModule } from './products/products.module';
 import { ConfigModule } from '@nestjs/config';
@@ -13,6 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
 import { JWT_KEY } from './auth/constants/jwt.constants';
 import { EXPIRES_IN } from './auth/constants/jwt.constants';
+
 
 @Module({
   imports: [
@@ -34,7 +33,7 @@ import { EXPIRES_IN } from './auth/constants/jwt.constants';
     autoLoadEntities: true,
     synchronize: true,
   }),EmployeesModule, ProductsModule, ProvidersModule, ManagersModule, RegionsModule, LocationsModule, AuthModule],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

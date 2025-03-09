@@ -2,15 +2,36 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, UseIn
 import { EmployeesService } from './employees.service';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
+import { version } from 'os';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { ROLES } from 'src/auth/constants/roles.contants';
+import { ApiResponse } from '@nestjs/swagger';
+import { Employee } from './entities/employee.entity';
+import { ApiAuth } from 'src/auth/decorators/api.decorator';
 
+
+@ApiAuth()
 @Controller('employees')
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
 
   @Auth(ROLES.MANAGER)
+  @ApiResponse({
+    status : 201,
+    example:{
+      employeeId: "UUID",
+      employeeName: "Jake",
+      employeeEmail: "jake@gamail.com",
+      employeeLastName: "Buzzo",
+      employeePhoneNumber: "123456789",
+      employeePhoto: "URL"
+    } 
+
+  })
+
+
+
   @Post()
   create(@Body() createEmployeeDto: CreateEmployeeDto) {
     return this.employeesService.create(createEmployeeDto);
