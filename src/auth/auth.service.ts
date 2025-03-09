@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { create } from 'domain';
-
+import  Jwt  from 'jsonwebtoken';
 
 @Injectable()
 export class AuthService {
@@ -20,12 +20,13 @@ export class AuthService {
       userEmail: createUserDto.userEmail
       }
     })
-    if (!user) {
-      throw new UnauthorizedException("Usuario NO encontrado");
-    }
+    if (!user) throw new UnauthorizedException("Usuario NO encontrado");
+  
     const match = await bcrypt.compare(createUserDto.userPassword, user.userPassword)
     //src/auth/auth.service.ts:23:62 - error TS18047: 'user' is possibly 'null' por eso agregue el otro if:)
         if(!match) throw new UnauthorizedException("NO esta autorizado");
-    return;
+        const token = Jwt.sign(JSON.stringify(user), "SECRET KEY");
+    return token;
   }
 }
+ 
