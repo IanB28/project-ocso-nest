@@ -7,12 +7,14 @@ import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 export class User{
 @PrimaryGeneratedColumn('uuid')
 userId: string;
-@Column('text')
+@Column('text',{
+    unique: true
+})
 userEmail: string;
 @Column('text')
 userPassword: string;
 @Column('simple-array',{
-    default: ['User']
+    default: "Employee"
 })
 UserRoles: string[];
 

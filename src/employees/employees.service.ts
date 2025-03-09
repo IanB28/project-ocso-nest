@@ -14,8 +14,16 @@ export class EmployeesService {
   ){}
 
  async create(createEmployeeDto: CreateEmployeeDto) {
-  const employee = await this.employeeRepository.save(createEmployeeDto)
-     return employee
+ // const employee = await this.employeeRepository.save(createEmployeeDto)
+ //   return employee
+// EL error que me da es en createEmployee, mejor seguire con los videos restantes y al final lo intentare solucionar
+//  No overload matches this call.
+//  Overload 1 of 4, '(entities: DeepPartial<Employee>[], options?: SaveOptions | undefined): Promise<(DeepPartial<Employee> & Employee)[]>', gave the following error.
+//  Argument of type 'CreateEmployeeDto' is not assignable to parameter of type 'DeepPartial<Employee>[]'.
+//    Type 'CreateEmployeeDto' is missing the following properties from type 'DeepPartial<Employee>[]': length, pop, push, concat, and 35 more.
+//  Overload 2 of 4, '(entity: DeepPartial<Employee>, options?: SaveOptions | undefined): Promise<DeepPartial<Employee> & Employee>', gave the following error.
+//  Argument of type 'CreateEmployeeDto' is not assignable to parameter of type 'DeepPartial<Employee>'.ts(2769)
+
   }
 
   findAll() {

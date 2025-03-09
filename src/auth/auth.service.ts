@@ -7,6 +7,7 @@ import * as bcrypt from 'bcrypt';
 import { create } from 'domain';
 import { JwtService } from '@nestjs/jwt';
 import { LoginUserDto } from './dto/login-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -41,5 +42,17 @@ export class AuthService {
         const token = this.jwtService.sign(payload);
     return token;
   }
+
+ async updateUser(userEmail: string, updateUserDto: UpdateUserDto){
+  const newUserData = await this.userRepository.preload({
+      userEmail,
+      ...updateUserDto
+    })
+    if (!newUserData) throw new UnauthorizedException("Usuario NO encontrado");
+
+    this.userRepository.save(newUserData)
+    return newUserData
+  }
+
 }
  
