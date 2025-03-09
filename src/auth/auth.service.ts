@@ -5,27 +5,40 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { create } from 'domain';
-import  Jwt  from 'jsonwebtoken';
+import { JwtService } from '@nestjs/jwt';
+import { LoginUserDto } from './dto/login-user.dto';
 
 @Injectable()
 export class AuthService {
-      constructor(@InjectRepository(User) private userRepository: Repository<User>){}
+      constructor(@InjectRepository(User) private userRepository: Repository<User>,
+    private  jwtService: JwtService,
+
+  ) {}
         registerUser(createUserDto: CreateUserDto){
           createUserDto.userPassword = bcrypt.hashSync(createUserDto.userPassword, 5)
           return this.userRepository.save(createUserDto); 
   }  
-  async loginUser(createUserDto: CreateUserDto){
+  async loginUser(loginUserDto: LoginUserDto) {
     const user = await this.userRepository.findOne({
       where:{
-      userEmail: createUserDto.userEmail
-      }
+      userEmail: loginUserDto.userEmail,
+      },
     })
+
     if (!user) throw new UnauthorizedException("Usuario NO encontrado");
   
-    const match = await bcrypt.compare(createUserDto.userPassword, user.userPassword)
+    const match = await bcrypt.compare
+    (loginUserDto.userPassword,
+       user.userPassword,
+    )
     //src/auth/auth.service.ts:23:62 - error TS18047: 'user' is possibly 'null' por eso agregue el otro if:)
         if(!match) throw new UnauthorizedException("NO esta autorizado");
-        const token = Jwt.sign(JSON.stringify(user), "SECRET KEY");
+        const payload = {
+          userEmail: user.userEmail, 
+          userPassword: user.userPassword,
+          userRoles: user.UserRoles
+        }
+        const token = this.jwtService.sign(payload);
     return token;
   }
 }
