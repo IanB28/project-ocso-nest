@@ -6,11 +6,13 @@ import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "ty
 export class Manager {
     @PrimaryGeneratedColumn('uuid')
     managerId: string;
-    @Column('text')z
+    @Column('text')
     managerFullName: string;
     @Column('float')
     managerSalary: number;
-    @Column('text')
+    @Column('text',{
+        unique: true
+    })
     managerEmail: string;
     @Column('text')
     managerPhone: string;
