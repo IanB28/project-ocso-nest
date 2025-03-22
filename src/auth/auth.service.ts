@@ -20,21 +20,21 @@ export class AuthService {
           return this.userRepository.save(createUserDto); 
   }  
   async loginUser(loginUserDto: LoginUserDto) {
-    console.log(loginUserDto)
+   
     const user = await this.userRepository.findOne({
       where:{
       userEmail: loginUserDto.userEmail,
       },
     })
-console.log(user);
+
     if (!user) throw new UnauthorizedException("Usuario NO encontrado");
   
     const match = await bcrypt.compare
     (loginUserDto.userPassword,
        user.userPassword,
-    )
+    );
     //src/auth/auth.service.ts:23:62 - error TS18047: 'user' is possibly 'null' por eso agregue el otro if:)
-    console.log(match);
+
         if(!match) throw new UnauthorizedException("NO esta autorizado");
         const payload = {
           userEmail: user.userEmail, 
